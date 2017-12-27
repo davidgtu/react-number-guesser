@@ -12,6 +12,7 @@ class Input extends Component {
       userMin     : '',
       userMax     : '',
       guess       : '',
+      message     : '',
     };
   }
 
@@ -46,13 +47,30 @@ class Input extends Component {
     this.setState({
       guessInput  : '',
       guess       : parseInt(this.state.guessInput),
-    })
+    });
+
+    this.setMessaging();
   }
 
-  render() {
+  setMessaging() {
     let min = this.state.min;
     let max = this.state.max;
     let userGuess = parseInt(this.state.guessInput);
+    let randomNum = this.state.randomNum;
+
+    if (userGuess === randomNum) {
+      this.setState({
+        message: 'Correct! Play again?',
+        randomNum: this.generateRandomNum(),
+      });
+    } else if (userGuess > randomNum) {
+      this.setState({ message: 'Too high. Try Again.' });
+    } else {
+      this.setState({ message: 'Too low. Try Again.' });
+    };
+  }
+
+  render() {
 
     return (
       <div className="container">
@@ -83,10 +101,11 @@ class Input extends Component {
               Guess!
             </button>
           </div>
+        </div>
 
+        <div className="results--container">
           <h3>Your last guess was: {this.state.guess}</h3>
-
-          <h3></h3>
+          <h4>{this.state.message}</h4>
         </div>
       </div>
     )
