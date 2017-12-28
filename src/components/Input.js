@@ -27,9 +27,21 @@ class Input extends Component {
   setMinMaxInput(e) {
     let { name, value } = e.target;
     this.setState({ [name]: parseInt(value) });
+
   }
 
   setMinMaxClick() {
+    if (this.state.userMax < this.state.userMin) {
+      this.setState({
+        message: "You can't have the Max bound less than Minimum bound!"
+      });
+    } else {
+      this.updateMinMax();
+      this.clearInputFields();
+    }
+  }
+
+  updateMinMax() {
     this.setState({
       randomNum : this.generateRandomNum(this.state.userMin, this.state.userMax),
       userMin   : '',
@@ -39,8 +51,21 @@ class Input extends Component {
     });
   }
 
+  clearInputFields() {
+    document.querySelector('.minimum--input').value = "";
+    document.querySelector('.maximum--input').value = "";
+  }
+
+  disableRangeButton() {
+    if (this.state.userMin === '' || this.state.userMax === '') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   setUserGuessInput(e) {
-    this.setState({ guessInput: e.target.value })
+    this.setState({ guessInput: e.target.value });
   }
 
   setUserGuessClick(e) {
@@ -61,7 +86,7 @@ class Input extends Component {
     if (userGuess === randomNum) {
       this.setState({
         message: 'Correct! Play again?',
-        randomNum: this.generateRandomNum(),
+        randomNum: this.generateRandomNum(this.state.minimum, this.state.maximum),
       });
     } else if (userGuess > randomNum) {
       this.setState({ message: 'Too high. Try Again.' });
@@ -71,42 +96,45 @@ class Input extends Component {
   }
 
   render() {
-
+    const guessInput = this.state.guessInput === "" ? true :  false;
     return (
-      <div className="container">
+      <div className="main--container">
         <div className="game--container">
-          <MinMax
-            className="thing"
-            userMin={this.state.userMin}
-            userMax={this.state.userMax}
-            setMinMaxInput={this.setMinMaxInput.bind(this)}
-            setMinMaxClick={this.setMinMaxClick.bind(this)}
-          />
-
-          <h3 className="min-max--text">Guess a number between {this.state.minimum} and {this.state.maximum}</h3>
+          <h1 className="min-max--text bottom-gutter">Guess a number between {this.state.minimum} and {this.state.maximum}</h1>
 
           <input
             type="number"
-            className="user-guess--input"
+            className="user-guess--input input bottom-gutter"
             value={this.state.guessInput}
             onChange={this.setUserGuessInput.bind(this)}
-            placeholder="Guess!"
+            placeholder="Enter Value"
           />
 
           <div className="buttons--container">
             <button
               id="guessButton"
+              className={guessInput ? 'button disabled' : 'button'}
               onClick={this.setUserGuessClick.bind(this)}
+              disabled={guessInput}
             >
-              Guess!
+              Guess
             </button>
           </div>
         </div>
 
         <div className="results--container">
-          <h3>Your last guess was: {this.state.guess}</h3>
-          <h4>{this.state.message}</h4>
+          <h3 className="bottom-gutter">Your last guess was: {this.state.guess}</h3>
+          <h3 className="bottom-gutter">{this.state.message}</h3>
         </div>
+
+        <MinMax
+          className="thing"
+          userMin={this.state.userMin}
+          userMax={this.state.userMax}
+          setMinMaxInput={this.setMinMaxInput.bind(this)}
+          setMinMaxClick={this.setMinMaxClick.bind(this)}
+          disabled={this.disableRangeButton.bind(this)}
+        />
       </div>
     )
   }

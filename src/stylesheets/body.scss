@@ -1,0 +1,56 @@
+body {
+  font: 400 11px/1.4 sans-serif;
+  margin: 0;
+  height: 100%;
+  min-height: 100%;
+  word-break: break-word;
+  -webkit-word-break: break-word;
+  @include flex(center, center);
+}
+
+html {
+  font-size: 62.5%;
+  height: 100%;
+  min-height: 100%;
+}
+
+button,
+input {
+  outline: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
+
+.hidden {
+  display: none;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+.bottom-gutter {
+  margin-bottom: 25px;
+}
+
+.game--container {
+  margin-bottom: 50px;
+}
+
+.game-config--title {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.results--container {
+  h3 {
+    font-size: 1.5vw;
+  }
+}
+
+.disabled {
+  opacity: 0.7;
+}

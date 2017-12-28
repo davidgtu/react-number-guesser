@@ -1,0 +1,11 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Slab:300,400');
+
+body,
+button,
+input {
+  font-family: 'Roboto Slab', sans-serif;
+}
+
+.min-max--text {
+  font-size: $headerSize;
+}
